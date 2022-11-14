@@ -1,26 +1,32 @@
 import logging
 
-from data.relations import (
-    get_rna_to_rnd_relation,
-    get_rna_codon_to_amino_acid_relation
-)
+from sqlalchemy.exc import SQLAlchemyError
+
+from data.relations import get_rna_to_rnd_relation, get_rna_codon_to_amino_acid_relation
+
+LOGGING_FORMAT = '[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s- %(message)s%m-%d %H:%M:%S'
+logging.basicConfig(format=LOGGING_FORMAT)
 
 
-def convert_dna_to_rna(dna: str, session) -> str:
+def convert_dna_to_rna(dna_sequence: str, session) -> str:
     try:
         relation = get_rna_to_rnd_relation(session)
-        rna = ''.join(relation.get(char) for char in dna)
+        rna = ''.join(relation.get(char) for char in dna_sequence)
         return rna
-    except Exception as e:
-        logging.error(e)
+    except SQLAlchemyError as orm_error:
+        logging.error(orm_error)
+    except KeyError as key_error_exception:
+        logging.error(key_error_exception)
 
 
-def convert_rna_to_protein(rna: str, session) -> str:
+def convert_rna_to_amino_acid(rna_sequence: str, session) -> str:
     try:
         relation = get_rna_codon_to_amino_acid_relation(session)
-        sequence_size = 3 * (len(rna) // 3 - 1) + 1
-        codons = tuple(rna[index: index + 3] for index in range(0, sequence_size, 3))
-        amino_acid = ''.join(relation.get(codon, '.') for codon in codons)
-        return amino_acid
-    except Exception as e:
-        logging.error(e)
+        sequence_size = 3 * (len(rna_sequence) // 3 - 1) + 1
+        codons = tuple(rna_sequence[index: index + 3] for index in range(0, sequence_size, 3))
+        amino_acid_sequence = ''.join(relation.get(codon, '.') for codon in codons)
+        return amino_acid_sequence
+    except SQLAlchemyError as orm_error:
+        logging.error(orm_error)
+    except KeyError as key_error_exception:
+        logging.error(key_error_exception)
