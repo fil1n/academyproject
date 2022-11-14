@@ -48,4 +48,4 @@ class AminoAcid(Base):
     rna_codon = relationship('RNACodon', back_populates='amino_acid')
 
     def __repr__(self):
-        return f'{self.__tablename__}:{self.protein_id}:{self.sequence}'
+        return f'{self.__tablename__}:{self.amino_acid_id}:{self.sequence}'
