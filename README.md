@@ -2,12 +2,12 @@
 
 Final project for python academy ;)
 
-### Requirements:
+### Libs & Tools Used:
 * SQLAlchemy
 * SQLite3 utils installed
 
-### Deploy
+### Docker
 ```
-$ pip3 install -r requirements.txt
-$ sqlite3 main.db < data.sql 
+$ docker build -t academyproject .
+$ docker run academyproject
 ```
