@@ -1,4 +1,5 @@
 import logging
+from typing import Union
 
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -8,18 +9,18 @@ LOGGING_FORMAT = '[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s- %(messa
 logging.basicConfig(format=LOGGING_FORMAT)
 
 
-def convert_dna_to_rna(dna_sequence: str, session) -> str:
+def convert_dna_to_rna(dna_sequence: str, session) -> Union[str, None]:
     try:
         relation = get_rna_to_rnd_relation(session)
-        rna = ''.join(relation.get(char) for char in dna_sequence)
-        return rna
+        rna_sequence = ''.join(relation.get(char) for char in dna_sequence)
+        return rna_sequence
     except SQLAlchemyError as orm_error:
         logging.error(orm_error)
     except KeyError as key_error_exception:
         logging.error(key_error_exception)
 
 
-def convert_rna_to_amino_acid(rna_sequence: str, session) -> str:
+def convert_rna_to_amino_acid(rna_sequence: str, session) -> Union[str, None]:
     try:
         relation = get_rna_codon_to_amino_acid_relation(session)
         sequence_size = 3 * (len(rna_sequence) // 3 - 1) + 1
