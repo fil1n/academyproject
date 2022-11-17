@@ -1,5 +1,5 @@
 import logging
-from ctypes import Union
+from typing import Union
 
 from sqlalchemy.exc import SQLAlchemyError
 
