@@ -1,3 +1,5 @@
+# Dockerfile written for testing script.py
+
 FROM python:3.10-slim
 
 WORKDIR /app
