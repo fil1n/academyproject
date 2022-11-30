@@ -1,12 +1,6 @@
 # python files excluded
-venv
 __pycache__
 
-# IDE files are excluded
-.idea
-.vscode
-
-# not required for testing
-README.md
+# not required
+Dockerfile
 .dockerignore
-.gitignore
