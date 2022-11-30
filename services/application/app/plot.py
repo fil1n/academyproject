@@ -19,7 +19,7 @@ def calculate_ratio(sequence: str):
     return result
 
 
-def draw_plot(genome: str, step: int = 100, file_path: str = './plot.jpeg'):
+def draw_plot(genome: str, step: int = 100, file_path: str = 'images/plot.jpeg'):
     map_func = np.vectorize(
         lambda index: calculate_ratio(genome[index - 1:index + step - 1])
     )

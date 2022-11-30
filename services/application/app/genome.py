@@ -3,7 +3,7 @@ from typing import Union
 
 from sqlalchemy.exc import SQLAlchemyError
 
-from data.relations import get_rna_to_rnd_relation, get_rna_codon_to_amino_acid_relation
+from app.data.relations import get_rna_to_rnd_relation, get_rna_codon_to_amino_acid_relation
 
 
 def convert_dna_to_rna(dna_sequence: str, session) -> Union[str, None]:
