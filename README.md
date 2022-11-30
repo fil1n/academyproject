@@ -2,17 +2,26 @@
 
 Final project for python academy
 
-### Libs & Tools Used:
-* SQLAlchemy
-* SQLite3 
-* Docker
 
-### Docker
+### Deploy
 ```
-$ docker build -t academyproject .
-$ docker run academyproject
+> docker-compose build
+> docker-compose up -d db # postgresql should be always up
 ```
+
+### Execution
+```
+> docker run --env .env --network $network_name academyproject_application python manage.py $cmd
+```
+
+### Command List:
+```
+> convert --dna2rna=$genome-string
+> convert --rna2amino=$genome-string
+> draw --genome=$genome-string --step=$step
+```
+
 
 ### TODO:
-1. docker-compose & Postgresql
-2. rewrite base.sql to postgresql syntax
+1. Fix volume issue
+2. Write Unit test
