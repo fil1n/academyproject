@@ -5,9 +5,6 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from data.relations import get_rna_to_rnd_relation, get_rna_codon_to_amino_acid_relation
 
-LOGGING_FORMAT = '[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s- %(message)s%m-%d %H:%M:%S'
-logging.basicConfig(format=LOGGING_FORMAT)
-
 
 def convert_dna_to_rna(dna_sequence: str, session) -> Union[str, None]:
     try:

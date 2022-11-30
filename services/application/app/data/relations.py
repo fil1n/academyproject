@@ -1,4 +1,4 @@
-from data.schemes import DNABase, RNACodon
+from services.application.data.schemes import DNABase, RNACodon
 
 
 def get_rna_to_rnd_relation(session) -> dict:
