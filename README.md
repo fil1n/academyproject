@@ -5,23 +5,25 @@ Final project for python academy
 
 ### Deploy
 ```
+> cd academyproject
 > docker-compose build
-> docker-compose up -d db # postgresql should be always up
 ```
 
-### Execution
+### Convert Command
+Command accepts one of two possible arguments - dna2rna or rna2amino. Returns required string. 
+#### Syntax:
 ```
-> docker run --env .env --network $network_name academyproject_application python manage.py $cmd
-```
-
-### Command List:
-```
-> convert --dna2rna=$genome-string
-> convert --rna2amino=$genome-string
-> draw --genome=$genome-string --step=$step
+> docker-compose run application python manage.py convert --dna2rna=$value:str
+> docker-compose run application python manage.py convert --rna2amino=$value:str 
 ```
 
+### Draw Command
+Requires two arguments - step and genome string. The output image will be stored in the ./images folder.
+#### Syntax
+```
+> docker-compose run application python manage.py draw --genome=$value:str --step=$value:int 
+```
 
 ### TODO:
-1. Fix volume issue
-2. Write Unit test
+* ~~Fix volume issue~~
+* Write Unit test
