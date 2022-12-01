@@ -1,11 +1,13 @@
 import logging
 
+from sqlalchemy.exc import SQLAlchemyError
+
 from app.data.db import Session
 from app.genome import convert_rna_to_amino_acid, convert_dna_to_rna
 from app.plot import draw_plot
 
 
-class CommandInterface:
+class Command:
     required_args = None
     help_str = None
 
@@ -13,18 +15,14 @@ class CommandInterface:
         self.payload = payload
 
     def validate(self) -> bool:
-        try:
-            if self.help_str is None:
-                raise NotImplementedError
-            if self.required_args is None:
-                raise NotImplementedError
-            for key in self.payload:
-                if key not in self.required_args:
-                    raise KeyError
-            return True
-        except Exception as e:
-            print(e)
-            return False
+        if self.help_str is None:
+            raise NotImplementedError
+        if self.required_args is None:
+            raise NotImplementedError
+        for key in self.payload:
+            if key not in self.required_args:
+                raise ValueError
+        return True
 
     def print_help(self):
         print('Usage:', self.help_str)
@@ -33,40 +31,34 @@ class CommandInterface:
         raise NotImplementedError
 
 
-class DrawPlotCommand(CommandInterface):
+class DrawPlotCommand(Command):
     required_args = ('step', 'genome')
     help_str = '--genome $genome:str --step $step:int'
 
     def run(self):
-        print(self.payload.get('genome'), self.payload.get('step', 100))
         draw_plot(self.payload.get('genome'), self.payload.get('step', 100))
 
 
-class ConvertCommand(CommandInterface):
+class ConvertCommand(Command):
     required_args = ('dna2rna', 'rna2amino')
     help_str = 'convert --dna2rna=$genome-str'
 
     def run(self):
-        try:
+        with Session() as session:
             if self.payload.get('dna2rna', False):
-                with Session() as session:
-                    sequence = convert_dna_to_rna(
-                        self.payload.get('dna2rna'),
-                        session
-                    )
-                    print(sequence)
+                sequence = convert_dna_to_rna(
+                    self.payload.get('dna2rna'),
+                    session
+                )
             else:
-                with Session() as session:
-                    sequence = convert_rna_to_amino_acid(
-                        self.payload.get('rna2amino'),
-                        session
-                    )
-                    print(sequence)
-        except Exception as ex:
-            logging.error(ex)
+                sequence = convert_rna_to_amino_acid(
+                    self.payload.get('rna2amino'),
+                    session
+                )
+            print(sequence)
 
 
-class WelcomeCommand(CommandInterface):
+class WelcomeCommand(Command):
     required_args = ()
     help_str = 'welcome # no args required'
 
@@ -95,23 +87,19 @@ def parse(args: list) -> dict:
     return parsed
 
 
-def execute(argv: list) -> int:
-    """
-    returns status code:
-    0 - OK
-    1 - invalid command
-    2 - invalid arguments
-    """
+def execute(argv: list):
     try:
         file_name, command_name, *args = argv
-        if command_name not in included_commands:
-            raise NotImplementedError
-        Command = included_commands.get(command_name)
+        CommandBlueprint = included_commands.get(command_name)
         parsed = parse(args)
-        command = Command(parsed)
+        command = CommandBlueprint(parsed)
         command.validate()
         command.run()
-        return 0
-    except NotImplementedError as error:
-        logging.error(error)
-        return 1
+    except ValueError as value_error:
+        logging.error(value_error)
+    except KeyError as key_error:
+        logging.error(key_error)
+    except NotImplementedError as implementation_error:
+        logging.error(implementation_error)
+    except SQLAlchemyError as sql_error:
+        logging.error(sql_error)

@@ -1,4 +1,5 @@
 from collections import defaultdict
+from datetime import datetime
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -19,13 +20,15 @@ def calculate_ratio(sequence: str):
     return result
 
 
-def draw_plot(genome: str, step: int = 100, file_path: str = 'images/plot.jpeg'):
+def draw_plot(genome: str, step: int = 100):
     map_func = np.vectorize(
         lambda index: calculate_ratio(genome[index - 1:index + step - 1])
     )
 
     horizontal_axis = np.arange(1, len(genome) + 1)
     vertical_axis = map_func(horizontal_axis)
+    current_date = datetime.today().strftime('%Y-%m-%d-%H:%M')
+    file_path = f'./images/plot-{current_date}.jpeg'
 
     plt.title(PlotOptions.title)
     plt.xlabel(PlotOptions.horizontal_axis_name)
