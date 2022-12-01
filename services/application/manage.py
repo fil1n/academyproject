@@ -7,4 +7,4 @@ from app.config import Config
 logging.basicConfig(format=Config.LOGGING_FORMAT)
 
 if __name__ == '__main__':
-    sys.exit(execute(sys.argv))
+    execute(sys.argv)
