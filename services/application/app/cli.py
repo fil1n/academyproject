@@ -60,7 +60,7 @@ class ConvertCommand(Command):
 
 class WelcomeCommand(Command):
     required_args = ()
-    help_str = 'welcome # no args required'
+    help_str = 'welcome # no arguments required'
 
     def validate(self) -> bool:
         return True
