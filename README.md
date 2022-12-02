@@ -2,17 +2,28 @@
 
 Final project for python academy
 
-### Libs & Tools Used:
-* SQLAlchemy
-* SQLite3 
-* Docker
 
-### Docker
+### Deploy
 ```
-$ docker build -t academyproject .
-$ docker run academyproject
+> cd academyproject
+> docker-compose build
+```
+
+### Convert Command
+Command accepts one of two possible arguments - dna2rna or rna2amino. Returns required string. 
+#### Syntax:
+```
+> docker-compose run application python manage.py convert --dna2rna=$value:str
+> docker-compose run application python manage.py convert --rna2amino=$value:str 
+```
+
+### Draw Command
+Requires two arguments - step and genome string. The output image will be stored in the ./images folder.
+#### Syntax
+```
+> docker-compose run application python manage.py draw --genome=$value:str --step=$value:int 
 ```
 
 ### TODO:
-1. docker-compose & Postgresql
-2. rewrite base.sql to postgresql syntax
+* ~~Fix volume issue~~
+* Write Unit test

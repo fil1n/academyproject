@@ -1,0 +1,6 @@
+# python files excluded
+__pycache__
+
+# not required
+Dockerfile
+.dockerignore
