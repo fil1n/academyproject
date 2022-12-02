@@ -10,29 +10,32 @@ class PlotOptions:
     vertical_axis_name = 'G-C Ratio (%)'
     horizontal_axis_name = 'Genome Position'
 
+    @staticmethod
+    def generate_file_path():
+        current_date = datetime.today().strftime('%Y-%m-%d-%H:%M')
+        return f'./images/plot-{current_date}.jpeg'
 
-def calculate_ratio(sequence: str):
+
+def calculate_ratio(sequence: str) -> float:
     bases = defaultdict(lambda: 0)
     for char in sequence:
         bases[char] += 1
-    gbase_num, cbase_num = bases.get('G', 0), bases.get('C', 0)
-    result = (gbase_num + cbase_num) / sum(bases.values()) * 100
-    return result
+    return (bases.get('G', 0) + bases.get('C', 0)) / sum(bases.values()) * 100
 
 
-def draw_plot(genome: str, step: int = 100):
-    map_func = np.vectorize(
+def draw_plot(genome: str, step: int = 100) -> None:
+    map_ratio = np.vectorize(
         lambda index: calculate_ratio(genome[index - 1:index + step - 1])
     )
 
-    horizontal_axis = np.arange(1, len(genome) + 1)
-    vertical_axis = map_func(horizontal_axis)
-    current_date = datetime.today().strftime('%Y-%m-%d-%H:%M')
-    file_path = f'./images/plot-{current_date}.jpeg'
+    # preparing dataset for plot
+    border = (len(genome) + 1) // step * step
+    horizontal_axis = np.arange(1, border, step)
+    vertical_axis = map_ratio(horizontal_axis)
 
+    # passing plot options to matplotlib & save figure
     plt.title(PlotOptions.title)
     plt.xlabel(PlotOptions.horizontal_axis_name)
     plt.ylabel(PlotOptions.vertical_axis_name)
-    plt.axis([0, len(genome), 0, 100])
     plt.plot(horizontal_axis, vertical_axis)
-    plt.savefig(file_path)
+    plt.savefig(PlotOptions.generate_file_path())
