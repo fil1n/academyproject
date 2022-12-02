@@ -8,7 +8,8 @@ class Config:
     SQL_HOST = os.getenv('SQL_HOST')
     SQL_PORT = os.getenv('SQL_PORT')
     DATABASE = os.getenv('DATABASE')
-    LOGGING_FORMAT = '[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s- %(message)s%m-%d %H:%M:%S'
+    LOGGING_FORMAT = ('[%(asctime)s] {%(pathname)s:%(lineno)d}'
+                      '%(levelname)s- %(message)s%m-%d %H:%M:%S')
 
     @classmethod
     def form_db_uri(cls):
