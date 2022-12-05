@@ -27,5 +27,6 @@ docker-compose run application python manage.py draw --genome=$value:str --step=
 ### Testing
 Simply run the unittest module in the project root dir.
 ```
-python -m unittest discover
+chmod 327 # RUN AS ROOT: allow writing files to the volume on *nix OS 
+python -m unittest discover test
 ```
