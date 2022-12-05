@@ -3,6 +3,10 @@ import logging
 from sqlalchemy.exc import SQLAlchemyError
 
 from app.data.db import Session
+from app.data.relations import (
+    get_rna_to_rnd_relation,
+    get_rna_codon_to_amino_acid_relation
+)
 from app.genome import convert_rna_to_amino_acid, convert_dna_to_rna
 from app.plot import draw_plot
 
@@ -46,14 +50,20 @@ class ConvertCommand(Command):
     def run(self):
         with Session() as session:
             if self.payload.get('dna2rna', False):
-                sequence = convert_dna_to_rna(
-                    self.payload.get('dna2rna'),
+                relation = get_rna_to_rnd_relation(
                     session
                 )
+                sequence = convert_dna_to_rna(
+                    self.payload.get('dna2rna'),
+                    relation
+                )
             else:
+                relation = get_rna_codon_to_amino_acid_relation(
+                    session
+                )
                 sequence = convert_rna_to_amino_acid(
                     self.payload.get('rna2amino'),
-                    session
+                    relation
                 )
             print(sequence)
 
