@@ -11,7 +11,7 @@ relation = {
 
 
 class TestDNAConversion(unittest.TestCase):
-    def basic(self):
+    def test_basic(self):
         payload = 'GCTAACTAAC'
         expected = 'GCUAACUAAC'
         output = convert_dna_to_rna(
