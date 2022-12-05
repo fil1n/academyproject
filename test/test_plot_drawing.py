@@ -15,12 +15,10 @@ class DrawPlotTest(unittest.TestCase):
         self.assertTrue(Path(file).is_file())
 
     def test_invalid_input(self):
-        """ function should raise ValueError after getting invalid value """
         payload = 'gjgjkjkg1232323DDD'
         self.assertRaises(ValueError, draw_plot, payload, base_dir=basedir)
 
     def test_step_size(self):
-        """ step must be less or equal to genome length """
         # payload length less than default step size (100)
         payload = 'ATTTGGCTACTAACAATCTA'
         self.assertRaises(ValueError, draw_plot, payload, base_dir=basedir)
