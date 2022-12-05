@@ -18,7 +18,7 @@ def convert_rna_to_amino_acid(rna: str, relation: dict) -> Union[str, None]:
         codons = tuple(
             rna[index: index + 3] for index in range(0, sequence_size, 3)
         )
-        amino_acid = ''.join(relation.get(codon, '.') for codon in codons)
+        amino_acid = ''.join(relation.get(codon) for codon in codons)
         return amino_acid
     except TypeError as type_error:
         logging.error(type_error)
