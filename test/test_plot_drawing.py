@@ -14,7 +14,7 @@ class DrawPlotTest(unittest.TestCase):
         file = PlotOptions.generate_file_path(basedir)
         self.assertTrue(Path(file).is_file())
 
-    def test_non_numeric_input(self):
+    def test_invalid_input(self):
         """ function should raise ValueError after getting invalid value """
         payload = 'gjgjkjkg1232323DDD'
         self.assertRaises(ValueError, draw_plot, payload, base_dir=basedir)
