@@ -30,3 +30,8 @@ Simply run the unittest module in the project root dir.
 chmod 327 images # RUN AS ROOT: allow writing files to the volume on *nix OS 
 python -m unittest discover test # in the root dir
 ```
+
+### TODO:
+* 2-stage Docker build
+* add stop codons to db
+* correct mistakes after feedback
