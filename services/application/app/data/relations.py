@@ -14,4 +14,8 @@ def get_rna_codon_to_amino_acid_relation(session) -> dict:
     relations = {
         codon.sequence: codon.amino_acid.sequence for codon in rna_codons
     }
+    # adding stop codons
+    relations['UAA'] = '.'
+    relations['UAG'] = '.'
+    relations['UGA'] = '.'
     return relations
