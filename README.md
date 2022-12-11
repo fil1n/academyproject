@@ -52,6 +52,6 @@ python -m unittest discover test # in the root dir
 ```
 
 ### TODO:
-* more info about project in README.md
+* ~~more info about project in README.md~~
 * add docstrings 
 * ~~fix infinite Docker startup (convert command)~~
