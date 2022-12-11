@@ -13,9 +13,9 @@ _Final project for [QPA](https://www.quantori.com/academy)_. The aim of the proj
 ### Project Layout
 * **/**
   * **data/**
-    * **db.py** : contains several sqlalchemy objects to work with db 
-    * **relations.py** : functions which convert sql data to python's dicts
-    * **schemes.py** : sql models 
+    * **db.py** - contains several sqlalchemy objects to work with db 
+    * **relations.py** - functions which convert sql data to python's dicts
+    * **schemes.py** - sql models 
   * **cli.py** - command line parser & utils to work with cli
   * **config.py** - project variables
   * **genome.py** - stores functions which convert genome 
