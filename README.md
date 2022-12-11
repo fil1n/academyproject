@@ -1,12 +1,32 @@
 # Academy project
 
-Final project for QPA.
+_Final project for [QPA](https://www.quantori.com/academy)_. The aim of the project was to develop command line application which performs two commands:
+* 1st: convert dna sequence to rna or rna to amino acid
+* 2nd: draw plot of C-G relation of given genome sequence
+
+### Tools used:
+* PostgreSQL
+* SQLAlchemy
+* Matplotlib & Numpy
+* Docker
+
+### Project Layout
+* **/**
+  * **data/**
+    * **db.py** : contains several sqlalchemy objects to work with db 
+    * **relations.py** : functions which convert sql data to python's dicts
+    * **schemes.py** : sql models 
+  * **cli.py** - command line parser & utils to work with cli
+  * **config.py** - project variables
+  * **genome.py** - stores functions which convert genome 
+  * **plot.py** - stores function to draw C-G relation of genome
 
 
 ### Build
 In the project root dir run:
 ```
 docker-compose build
+docker-compose up # initial run, data will be inserted into db
 ```
 
 ### Convert Command
@@ -32,6 +52,6 @@ python -m unittest discover test # in the root dir
 ```
 
 ### TODO:
-* 2-stage Docker build
-* add stop codons to db
-* correct mistakes after feedback
+* more info about project in README.md
+* add docstrings 
+* ~~fix infinite Docker startup (convert command)~~
